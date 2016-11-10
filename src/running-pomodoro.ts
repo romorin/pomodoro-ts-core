@@ -31,7 +31,7 @@ export class RunningPomodoro implements PomodoroState {
 	public onExitState() { this.onReset(); }
 
 	public onToggle() {
-		if (this._currentCounter.status === CounterStatus.Over) {
+		if (this._currentCounter.getStatus() === CounterStatus.Over) {
 			this._currentCounter.reset();
 			this._currentCounter = this.getOtherCounter();
 		}
@@ -51,19 +51,19 @@ export class RunningPomodoro implements PomodoroState {
 	public decrementSec() {}
 
 	public updateDisplay() {
-		let currentTemplate = this._templates[this._currentCounter.status];
+		let currentTemplate = this._templates[this._currentCounter.getStatus()];
 		this._display.titleLabel = currentTemplate.titleLabel
-			.replace(this._constants.CURRENT_TEMPLATE_TOKEN, this._currentCounter.title)
-			.replace(this._constants.NEXT_TEMPLATE_TOKEN, this.getOtherCounter().title);
+			.replace(this._constants.CURRENT_TEMPLATE_TOKEN, this._currentCounter.getTitle())
+			.replace(this._constants.NEXT_TEMPLATE_TOKEN, this.getOtherCounter().getTitle());
 		this._display.toggleLabel = currentTemplate.toggleButtonLabel
-			.replace(this._constants.CURRENT_TEMPLATE_TOKEN, this._currentCounter.title)
-			.replace(this._constants.NEXT_TEMPLATE_TOKEN, this.getOtherCounter().title);
+			.replace(this._constants.CURRENT_TEMPLATE_TOKEN, this._currentCounter.getTitle())
+			.replace(this._constants.NEXT_TEMPLATE_TOKEN, this.getOtherCounter().getTitle());
 
 		let decorations = this._currentCounter.getDecorations();
 		this._display.leftDecoration = decorations.left;
 		this._display.rightDecoration = decorations.right;
 
-		this._display.countdown = this._currentCounter.remaining;
+		this._display.countdown = this._currentCounter.getRemaining();
 		this._display.editLabel = this._constants.RUNNING_EDIT_LABEL;
 		this._display.resetLabel = this._constants.RUNNING_RESET_LABEL;
 	}

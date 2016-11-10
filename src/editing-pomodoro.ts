@@ -20,13 +20,13 @@ export class EditingPomodoro implements PomodoroState {
 
 	public onExitState() {
 		if (this._titleLabelSet) {
-			this._currentCounter.title = this._display.titleLabel;
+			this._currentCounter.setTitle(this._display.titleLabel);
 		}
 	}
 
 	public onToggle() {
 		if (this._titleLabelSet) {
-			this._currentCounter.title = this._display.titleLabel;
+			this._currentCounter.setTitle(this._display.titleLabel);
 		}
 		this.setCounter(this.getOtherCounter());
 	}
@@ -39,23 +39,23 @@ export class EditingPomodoro implements PomodoroState {
 	}
 
 	public incrementMin() {
-		this._currentCounter.length += 60;
+		this._currentCounter.setLength( this._currentCounter.getLength() + 60 );
 	}
 	public decrementMin() {
-		this._currentCounter.length -= 60;
+		this._currentCounter.setLength( this._currentCounter.getLength() - 60);
 	}
 	public incrementSec() {
-		this._currentCounter.length += 1;
+		this._currentCounter.setLength( this._currentCounter.getLength() + 1);
 	}
 	public decrementSec() {
-		this._currentCounter.length -= 1;
+		this._currentCounter.setLength( this._currentCounter.getLength() - 1);
 	}
 	public updateDisplay() {
 		if (!this._titleLabelSet) {
-			this._display.titleLabel = this._currentCounter.title;
+			this._display.titleLabel = this._currentCounter.getTitle();
 			this._titleLabelSet = true;
 		}
-		this._display.countdown = this._currentCounter.length;
+		this._display.countdown = this._currentCounter.getLength();
 		this._display.toggleLabel = this._constants.EDIT_TOGGLE_LABEL;
 		this._display.editLabel = this._constants.EDIT_EDIT_LABEL;
 		this._display.resetLabel = this._constants.EDIT_RESET_LABEL;
